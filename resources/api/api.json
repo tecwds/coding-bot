@@ -1,0 +1,32 @@
+[
+  {
+    "api_name": "",
+    "api_describe": "",
+    "api_info": {
+      "method": "",
+      "path": "",
+      "headers": {
+        "auth": "example"
+      },
+      "params": {
+        "example": "1"
+      }
+    }
+  },
+  {
+    "api_name": "发送私聊消息",
+    "api_describe": "向好友发送私聊消息，不支持临时会话",
+    "api_info": {
+      "method": "POST",
+      "path": "/send_private_msg",
+      "param_type": "json",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "params": {
+        "user_id": "",
+        "message": ""
+      }
+    }
+  }
+]
