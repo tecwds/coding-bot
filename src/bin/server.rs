@@ -4,10 +4,10 @@ use coding_bot::{
     api::api::{ApiInfo, API},
     config::settings::Settings,
 };
-use rocket::{post, routes};
+use rocket::{http::Status, post, response::content, routes};
 
 #[post("/", data = "<data>")]
-fn handle_post(data: String) -> &'static str {
+async fn handle_post(data: String) -> Result<content::RawText<String>, Status> {
     println!("res data is {}", data);
 
     let setting = Settings::from_config();
@@ -33,15 +33,15 @@ fn handle_post(data: String) -> &'static str {
     );
 
     // let response = Client::new()
-    let response = reqwest::blocking::Client::new()
+    let response = reqwest::Client::new()
         .post(format!("{}{}", setting.service_url, api.api_info.path))
         .json(&api.api_info.params)
         .send()
-        .unwrap();
+        .await.unwrap();
 
-    println!("response = {}", response.text().unwrap());
+    println!("response = {}", response.text().await.unwrap());
 
-    "recived data"
+    Ok(content::RawText("Received data".to_string()))
 }
 
 #[tokio::main]
