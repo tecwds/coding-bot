@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 // use lombok::{Getter, GetterMut, Setter, ToString};
-use serde::{Deserialize, Serialize};
+use rocket::serde::{json::Json, Deserialize, Serialize};
 
 // #[derive(Getter, GetterMut, Setter, ToString)]
 // pub struct Event {
@@ -11,6 +11,7 @@ use serde::{Deserialize, Serialize};
 // }
 
 #[derive(Serialize, Deserialize, Debug)]
+#[serde(crate = "rocket::serde")]
 pub struct Sender {
     user_id: Option<String>,  // 发送者 QQ
     nickname: Option<String>, // 昵称
@@ -24,6 +25,7 @@ pub struct Sender {
 }
 
 #[derive(Serialize, Deserialize, Debug)]
+#[serde(crate = "rocket::serde")]
 pub struct Anonymous {
     id: i64,      // 匿名用户 ID
     name: String, // 匿名用户名称
@@ -31,12 +33,14 @@ pub struct Anonymous {
 }
 
 #[derive(Debug, Deserialize, Serialize)]
+#[serde(crate = "rocket::serde")]
 pub struct Message {
     r#type: String,
     data: Option<HashMap<String, String>>,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
+#[serde(crate = "rocket::serde")]
 pub enum Segment {
     Text(Message),
     Face(Message),
@@ -61,6 +65,7 @@ pub enum Segment {
 }
 
 #[derive(Serialize, Deserialize, Debug)]
+#[serde(crate = "rocket::serde")]
 pub struct Event {
     time: Option<i64>,            // 时间戳
     self_id: Option<i64>,         // 收到事件的机器人 QQ 号
