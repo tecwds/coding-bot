@@ -76,9 +76,9 @@ pub enum Segment {
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(crate = "rocket::serde")]
 pub struct Status {
-    online: bool,
-    good: bool,
-    interval: i32,
+    online: Option<bool>,
+    good: Option<bool>,
+    interval: Option<i32>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -95,6 +95,7 @@ pub struct Event {
     real_id: Option<i64>,            // 真实 ID -> message_id
     group_id: Option<i64>,           // 群号
     message: Option<String>,         // 消息内容
+    message_seq: Option<i32>,        // 消息 ID ?
     message_type: Option<String>,    // 消息类型
     message_format: Option<String>,  // 消息格式化类型
     raw_message: Option<String>,     // 原始消息内容
