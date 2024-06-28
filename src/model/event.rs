@@ -1,7 +1,18 @@
-use std::collections::HashMap;
+use core::panicking::unreachable_display;
+use std::{collections::HashMap, hash::Hash};
 
+use log::info;
+use reqwest::Client;
 // use lombok::{Getter, GetterMut, Setter, ToString};
 use rocket::serde::{json::Json, Deserialize, Serialize};
+
+use crate::{
+    api::{
+        self,
+        api::{ApiInfo, API},
+    },
+    config::settings::{self, SETTING},
+};
 
 // #[derive(Getter, GetterMut, Setter, ToString)]
 // pub struct Event {
@@ -91,4 +102,57 @@ pub struct Event {
     font: Option<i32>,               // 字体
     anonymous: Option<Anonymous>,    // 匿名信息
     sender: Option<Sender>,          // 发送人信息
+}
+
+/// 事件处理器
+pub enum EventHandler {
+    MessageHandler(Event),
+}
+
+impl EventHandler {
+    pub async fn handler(&self) -> Result<(), Box<dyn std::error::Error>> {
+        match self {
+            EventHandler::MessageHandler(event) => {
+                let settings = SETTING.clone();
+                // 判断消息类型 message_type
+                if let Some(msg_type) = event.message_type.clone() {
+                    if msg_type == String::from("private") {
+                        info!("msg_type 为 private");
+
+                        let mut api = API {
+                            api_name: String::from("返回消息"),
+                            api_describe: String::new(),
+                            api_info: ApiInfo {
+                                method: "POST".to_string(),
+                                path: "/send_private_msg".to_string(),
+                                headers: HashMap::new(),
+                                param_type: "JSON".to_string(),
+                                params: HashMap::new(),
+                            },
+                        };
+
+                        api.api_info.params.insert(
+                            String::from("user_id"),
+                            String::from(event.user_id.unwrap().to_string()),
+                        );
+                        api.api_info.params.insert(
+                            String::from("message"),
+                            String::from(event.raw_message.clone().unwrap().clone()),
+                        );
+
+                        // let url =
+                        let response = Client::new()
+                            .post(format!("{}{}", settings.service_url, api.api_info.path))
+                            .json(&api.api_info.params)
+                            .send()
+                            .await?;
+
+                        println!("response = {}", response.text().await?);
+                    }
+                }
+            }
+        }
+
+        Ok(())
+    }
 }
