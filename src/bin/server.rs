@@ -1,11 +1,11 @@
-use std::collections::HashMap;
+// use std::collections::HashMap;
 
 use coding_bot::{
-    api::api::{ApiInfo, API},
-    config::settings::Settings,
+    // api::api::{ApiInfo, API},
+    // config::settings::Settings,
     model::event::Event,
 };
-use rocket::{http::Status, post, response::content, routes};
+use rocket::{http::Status, post, response::content, routes, serde::json::Json};
 
 #[post("/", data = "<task>")]
 async fn handle_post(task: Json<Event>) -> Result<content::RawText<String>, Status> {
