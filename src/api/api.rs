@@ -39,14 +39,3 @@ pub struct ApiInfo {
     pub headers: HashMap<String, String>,
     pub params: HashMap<String, String>,
 }
-
-
-#[cfg(test)]
-mod api_test {
-    // use super::*;
-
-    #[test]
-    fn test_api() {
-
-    }
-}
