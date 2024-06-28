@@ -7,7 +7,10 @@ use rocket::{http::Status, post, response::content, routes, serde::json::Json};
 async fn handle_post(data: Json<Event>) -> Result<content::RawText<String>, Status> {
     println!("{data:?}");
 
-    EventHandler::MessageHandler(data.0).handler();
+    EventHandler::MessageHandler(data.0)
+        .handler()
+        .await
+        .unwrap();
 
     Ok(content::RawText("Received data".to_string()))
 }

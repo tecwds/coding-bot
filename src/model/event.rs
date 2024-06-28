@@ -140,6 +140,8 @@ impl EventHandler {
                             String::from(event.raw_message.clone().unwrap().clone()),
                         );
 
+                        info!("api debug : {:?}", api);
+
                         // let url =
                         let response = Client::new()
                             .post(format!("{}{}", settings.service_url, api.api_info.path))
