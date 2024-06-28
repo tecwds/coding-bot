@@ -133,7 +133,7 @@ impl EventHandler {
 
                         api.api_info.params.insert(
                             String::from("user_id"),
-                            String::from(event.user_id.unwrap().to_string()),
+                            String::from(event.user_id.clone().unwrap()),
                         );
                         api.api_info.params.insert(
                             String::from("message"),
