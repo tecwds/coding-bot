@@ -9,7 +9,6 @@ use rocket::serde::{json::Json, Deserialize, Serialize};
 //     self_id: i64,
 //     post_type: String, // message, notice, request, meta_event
 // }
-
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(crate = "rocket::serde")]
 pub struct Sender {
