@@ -22,7 +22,7 @@ use crate::{
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(crate = "rocket::serde")]
 pub struct Sender {
-    user_id: Option<i64>,  // 发送者 QQ
+    user_id: Option<i64>,     // 发送者 QQ
     nickname: Option<String>, // 昵称
     sex: Option<String>,      // 性别 male, female, unknown
     age: Option<i32>,         // 年龄
@@ -91,9 +91,9 @@ pub struct Event {
     meta_event_type: Option<String>, // 元事件类型
     status: Option<Status>,          // 状态
     message_id: Option<i32>,         // 消息 ID
-    user_id: Option<i64>,         // 发送者 QQ 号
-    real_id: Option<i64>,         // 真实 ID -> message_id
-    group_id: Option<i64>,        // 群号
+    user_id: Option<i64>,            // 发送者 QQ 号
+    real_id: Option<i64>,            // 真实 ID -> message_id
+    group_id: Option<i64>,           // 群号
     message: Option<String>,         // 消息内容
     message_seq: Option<i32>,        // 消息 ID ?
     message_type: Option<String>,    // 消息类型
@@ -133,7 +133,7 @@ impl EventHandler {
 
                         api.api_info.params.insert(
                             String::from("user_id"),
-                            String::from(event.user_id.clone().unwrap()),
+                            event.user_id.clone().unwrap().to_string(),
                         );
                         api.api_info.params.insert(
                             String::from("message"),
