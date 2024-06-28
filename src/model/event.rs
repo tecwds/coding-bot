@@ -63,19 +63,32 @@ pub enum Segment {
     Json(Message),
 }
 
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(crate = "rocket::serde")]
+pub struct Status {
+    online: bool,
+    good: bool,
+    interval: i32,
+}
+
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(crate = "rocket::serde")]
 pub struct Event {
-    time: Option<i64>,            // 时间戳
-    self_id: Option<i64>,         // 收到事件的机器人 QQ 号
-    post_type: Option<String>,    // 上报类型： message, notice, request, meta_event
-    sub_type: Option<String>,     // 消息子类型： frient, group, other
-    message_id: Option<i32>,      // 消息 ID
-    user_id: Option<i64>,         // 发送者 QQ 号
-    group_id: Option<i64>,        // 群号
-    message: Option<Segment>,     // 消息内容
-    raw_message: Option<String>,  // 原始消息内容
-    font: Option<i32>,            // 字体
-    anonymous: Option<Anonymous>, // 匿名信息
-    sender: Option<Sender>,       // 发送人信息
+    time: Option<i64>,               // 时间戳
+    self_id: Option<i64>,            // 收到事件的机器人 QQ 号
+    post_type: Option<String>,       // 上报类型： message, notice, request, meta_event
+    sub_type: Option<String>,        // 消息子类型： frient, group, other
+    meta_event_type: Option<String>, // 元事件类型
+    status: Option<Status>,          // 状态
+    message_id: Option<i32>,         // 消息 ID
+    user_id: Option<i64>,            // 发送者 QQ 号
+    real_id: Option<i64>,            // 真实 ID -> message_id
+    group_id: Option<i64>,           // 群号
+    message: Option<String>,         // 消息内容
+    message_type: Option<String>,    // 消息类型
+    message_format: Option<String>,  // 消息格式化类型
+    raw_message: Option<String>,     // 原始消息内容
+    font: Option<i32>,               // 字体
+    anonymous: Option<Anonymous>,    // 匿名信息
+    sender: Option<Sender>,          // 发送人信息
 }
