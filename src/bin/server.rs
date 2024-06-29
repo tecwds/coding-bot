@@ -4,12 +4,14 @@ use coding_bot::model::{
     event::{Event, EventHandler},
     event_v2::MetaEvent,
 };
+use log::info;
 use rocket::{http::Status, post, response::content, routes, serde::json::Json};
 
-#[post("/", data = "<data>")]
-async fn handle_post(data: Json<Event>) -> Result<content::RawText<String>, Status> {
-    println!("{data:?}");
+#[post("/", data = "<event>")]
+async fn handle_post(event: String) -> Result<content::RawText<String>, Status> {
+    info!("收到上报事件");
 
+    info!("event = {event}");
     // EventHandler::MessageHandler(data.0)
     //     .handler()
     //     .await
@@ -18,17 +20,11 @@ async fn handle_post(data: Json<Event>) -> Result<content::RawText<String>, Stat
     Ok(content::RawText("Received data".to_string()))
 }
 
-#[post("/", data = "<data>")]
-async fn handle_meta_event(data: Json<MetaEvent>) -> Result<content::RawText<String>, Status> {
-    println!("debug info : {data:?}");
-
-    Ok(content::RawText("Recived data".to_string()))
-}
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     rocket::build()
-        .mount("/", routes![handle_post, handle_meta_event])
+        .mount("/", routes![handle_post])
         .launch()
         .await?;
 
