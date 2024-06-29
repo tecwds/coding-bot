@@ -1,3 +1,4 @@
+use coding_bot::handler::post_type::PostType;
 use log::info;
 use rocket::{figment::value::Value, http::Status, post, response::content, routes};
 
@@ -14,9 +15,10 @@ use rocket::{figment::value::Value, http::Status, post, response::content, route
 async fn handle_post(event: String) -> Result<content::RawText<String>, Status> {
     info!("收到上报事件, 载荷为：{}", event);
 
-    let event_json: Value = serde_json::from_str(&event).unwrap();
+    PostType::handler(event).await.unwrap();
+    // let event_json: Value = serde_json::from_str(&event).unwrap();
 
-    info!("event_json is {event_json:?}");
+    // info!("event_json is {event_json:?}");
 
     Ok(content::RawText("Received data".to_string()))
 }
