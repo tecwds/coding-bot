@@ -1,17 +1,9 @@
-use coding_bot::model::event_v2::PostType;
+use serde_json::json;
 
 fn main() {
-    // let json_str = r#"{"self_id":3794478577,"user_id":1485513203,"time":1719649955,"message_id":-2147483557,"message_seq":-2147483557,"real_id":-2147483557,"message_type":"private","sender":{"user_id":1485513203,"nickname":"让我在摆烂一会儿","card":""},"raw_message":"二进制Debug","font":14,"sub_type":"friend","message":[{"data":{"text":"二进制Debug"},"type":"text"}],"message_format":"array","post_type":"message"}"#;
-    let meta_str = r#"{"time":1719649978,"self_id":3794478577,"post_type":"meta_event","meta_event_type":"heartbeat","status":{"online":true,"good":true},"interval":30000}"#;
-    // println!("json_str = {json_str}");
+    let group_mes = r#"{"self_id":3794478577,"user_id":1485513203,"time":1719658472,"message_id":-2147483541,"message_seq":-2147483541,"real_id":-2147483541,"message_type":"group","sender":{"user_id":1485513203,"nickname":"让我在摆烂一会儿","card":"","role":"owner"},"raw_message":"你好","font":14,"sub_type":"normal","message":[{"data":{"text":"你好"},"type":"text"}],"message_format":"array","post_type":"message","group_id":979996822}"#;
 
-    let pt: PostType = serde_json::from_str(&meta_str).unwrap();
+    let info = json!(group_mes);
 
-    println!("test result is {}", pt.get_post_type());
-
-    let event = pt.get_enum(meta_str.to_string());
-
-    println!("debug {event:?}");
-
-    // println!("json = {json:?}")
+    println!("info is {info:?}");
 }
