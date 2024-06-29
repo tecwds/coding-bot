@@ -7,8 +7,8 @@ use coding_bot::model::{
 use rocket::{http::Status, post, response::content, routes, serde::json::Json};
 
 #[post("/", data = "<data>")]
-async fn handle_post(data: String) -> Result<content::RawText<String>, Status> {
-    println!("{data}");
+async fn handle_post(data: Json<Event>) -> Result<content::RawText<String>, Status> {
+    println!("{data:?}");
 
     // EventHandler::MessageHandler(data.0)
     //     .handler()
