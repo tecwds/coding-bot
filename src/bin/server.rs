@@ -1,12 +1,5 @@
-// use std::collections::HashMap;
-
-use coding_bot::model::{
-    event::{Event, EventHandler},
-    event_v2::MetaEvent,
-};
 use log::info;
-use rocket::{http::Status, post, response::content, routes, serde::json::Json};
-use serde_json::json;
+use rocket::{figment::value::Value, http::Status, post, response::content, routes};
 
 /// # 监听上报事件
 ///
@@ -21,9 +14,9 @@ use serde_json::json;
 async fn handle_post(event: String) -> Result<content::RawText<String>, Status> {
     info!("收到上报事件, 载荷为：{}", event);
 
-    let event_json = json!(event);
+    let event_json: Value = serde_json::from_str(&event).unwrap();
 
-    println!("event_json is {event_json:?}");
+    info!("event_json is {event_json:?}");
 
     Ok(content::RawText("Received data".to_string()))
 }
