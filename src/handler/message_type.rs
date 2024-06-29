@@ -59,7 +59,7 @@ impl MessageType {
                 .insert(String::from("user_id"), user_id.to_string());
             api.api_info
                 .params
-                .insert(String::from("message"), raw_message.to_string());
+                .insert(String::from("message"), format!("你的消息是：{}", raw_message.to_string()));
 
             let setting = SETTING.clone();
             let response = Client::new()
