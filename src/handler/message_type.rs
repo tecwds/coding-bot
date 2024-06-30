@@ -1,7 +1,6 @@
 use std::collections::HashMap;
 
 use reqwest::Client;
-use rocket::futures::TryFutureExt;
 use serde_json::Value;
 
 use crate::{

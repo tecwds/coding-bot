@@ -2,6 +2,8 @@ use std::collections::HashMap;
 
 use serde::{Deserialize, Serialize};
 
+use crate::config::settings::SETTING;
+
 /// # API 基本信息
 ///
 /// 包括:
@@ -16,6 +18,11 @@ pub struct API {
     pub api_info: ApiInfo,    // API 详细结构
 }
 
+impl API {
+    pub fn get_url(&self) -> String {
+        String::from(format!("{}{}", SETTING.service_url, self.api_info.path))
+    }
+}
 
 /// # API 详细结构
 ///
